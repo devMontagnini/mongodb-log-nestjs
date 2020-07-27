@@ -1,0 +1,21 @@
+{
+  "name": "mongodb-log-nestjs",
+  "version": "1.0.0",
+  "description": "Package for NestJs to log stuff on MongoDb",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/devMontagnini/mongodb-log-nestjs.git"
+  },
+  "keywords": [
+    "mongodb",
+    "log",
+    "nestjs",
+    "interceptor"
+  ],
+  "author": "André Montagnini",
+  "license": "ISC"
+}
