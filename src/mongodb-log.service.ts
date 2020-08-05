@@ -34,6 +34,6 @@ export class MongodbLogService {
   }
 
   private async register(colletion: Collection, log: any): Promise<InsertOneWriteOpResult<any>> {
-    return await colletion.insertOne({ log,  date: new Date() });
+    return await colletion.insertOne({ log, date: new Date() });
   }
 }

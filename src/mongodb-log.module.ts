@@ -8,9 +8,8 @@ import { MongodbLogConnections } from './mongodb-log.connections';
 import { MongodbLogError } from './mongodb-log.error';
 import { MongodbLogConfigAsync } from './mongodb-log.config.async';
 
-@Module({ })
+@Module({})
 export class MongodbLogModule {
-
   static forRoot(config?: MongodbLogConfig): DynamicModule {
     return MongodbLogModule.buildRoot(config);
   }
@@ -31,18 +30,17 @@ export class MongodbLogModule {
     const moduleMetadata: DynamicModule = {
       module: MongodbLogModule,
       exports: [MongodbLogService],
-      providers: [{
-        provide: MongodbLogService,
-        useFactory: MongodbLogServiceFactory.create,
-        inject: [
-          MONGODB_LOG_CONFIG,
-          MongodbLogConnections
-        ]
-      }],
+      providers: [
+        {
+          provide: MongodbLogService,
+          useFactory: MongodbLogServiceFactory.create,
+          inject: [MONGODB_LOG_CONFIG, MongodbLogConnections],
+        },
+      ],
     };
 
-    const syncConfig = (config as MongodbLogConfig);
-    if(syncConfig.connectionString) {
+    const syncConfig = config as MongodbLogConfig;
+    if (syncConfig.connectionString) {
       moduleMetadata.providers.push({
         provide: MONGODB_LOG_CONFIG,
         useValue: syncConfig,
@@ -50,8 +48,8 @@ export class MongodbLogModule {
       return moduleMetadata;
     }
 
-    const asyncConfig = (config as MongodbLogConfigAsync);
-    if(asyncConfig.useFactory) {
+    const asyncConfig = config as MongodbLogConfigAsync;
+    if (asyncConfig.useFactory) {
       moduleMetadata.imports = asyncConfig.imports;
       moduleMetadata.providers.unshift({
         provide: MONGODB_LOG_CONFIG,
@@ -67,7 +65,7 @@ export class MongodbLogModule {
   }
 
   private static buildRoot(config?: MongodbLogConfig | MongodbLogConfigAsync): DynamicModule {
-    if(!config) {
+    if (!config) {
       return {
         module: MongodbLogModule,
         imports: [MongodbLogHostModule],
@@ -77,31 +75,32 @@ export class MongodbLogModule {
     const moduleMetadata: DynamicModule = {
       module: MongodbLogModule,
       exports: [MongodbLogService],
-      providers: [{
-        provide: MongodbLogService,
-        useExisting: MONGODB_LOG_SERVICE_TOKEN,
-      }],
+      providers: [
+        {
+          provide: MongodbLogService,
+          useExisting: MONGODB_LOG_SERVICE_TOKEN,
+        },
+      ],
     };
 
-    const syncConfig = (config as MongodbLogConfig);
+    const syncConfig = config as MongodbLogConfig;
     if (syncConfig?.connectionString) {
       return {
         ...moduleMetadata,
-        imports: [MongodbLogHostModule.forRoot(syncConfig)]
-      }
+        imports: [MongodbLogHostModule.forRoot(syncConfig)],
+      };
     }
 
-    const asyncConfig = (config as MongodbLogConfigAsync);
+    const asyncConfig = config as MongodbLogConfigAsync;
     if (asyncConfig?.useFactory) {
       return {
         ...moduleMetadata,
-        imports: [MongodbLogHostModule.forRootAsync(asyncConfig)]
-      }
+        imports: [MongodbLogHostModule.forRootAsync(asyncConfig)],
+      };
     }
 
     const errorMessage = 'Error on root module build. Verify your forRoot or forRootAsync params method.';
     MongodbLogError.print(errorMessage);
     throw Error(errorMessage);
   }
-
 }
