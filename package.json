@@ -14,8 +14,7 @@
     "eslint": "eslint \"src/**/*.ts\"",
     "prepublishOnly": "npm run lint",
     "prepare": "npm run build",
-    "version": "npm run prettier && git add -A src",
-    "postversion": "git push && git push --tags"
+    "version": "npm run prettier && git add -A src"
   },
   "repository": {
     "type": "git",
