@@ -3,8 +3,14 @@
   "version": "1.0.0",
   "description": "Package for NestJs to log stuff on MongoDb",
   "main": "index.js",
+  "files": [
+    "lib/**/*"
+  ],
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "tsc",
+    "format": "prettier --write \"src/**/*.ts\"",
+    "lint": "tslint -p tsconfig.json"
   },
   "repository": {
     "type": "git",
@@ -13,9 +19,20 @@
   "keywords": [
     "mongodb",
     "log",
-    "nestjs",
-    "interceptor"
+    "nestjs"
   ],
   "author": "André Montagnini",
-  "license": "ISC"
+  "license": "ISC",
+  "dependencies": {
+    "@nestjs/common": "^7.3.2",
+    "mongodb": "^3.5.9",
+    "rxjs": "^6.6.0"
+  },
+  "devDependencies": {
+    "@types/mongodb": "^3.5.25",
+    "prettier": "^2.0.5",
+    "tslint": "^6.1.2",
+    "tslint-config-prettier": "^1.18.0",
+    "typescript": "^3.9.7"
+  }
 }
