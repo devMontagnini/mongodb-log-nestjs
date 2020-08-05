@@ -12,7 +12,7 @@
     "build": "tsc",
     "prettier": "prettier --write \"src/**/*.ts\"",
     "eslint": "eslint \"src/**/*.ts\"",
-    "prepublishOnly": "npm run lint",
+    "prepublishOnly": "npm run eslint",
     "prepare": "npm run build",
     "version": "npm run prettier && git add -A src"
   },
