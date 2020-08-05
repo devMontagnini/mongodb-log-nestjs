@@ -24,16 +24,16 @@ export class MongodbLogService {
     return await this.register(this.logColletion, log);
   }
 
-  async registerOn(collectionName: string, log: any): Promise<InsertOneWriteOpResult<any> | undefined> {
+  async registerOn(collectionName: string, data: any): Promise<InsertOneWriteOpResult<any> | undefined> {
     const collection = this.additionalCollections[collectionName];
     if (!collection) {
-      MongodbLogError.print(`Collection "${collectionName}" need to be set on .forRoot or .ferFeature method.`);
+      MongodbLogError.print(`Additional collection "${collectionName}" need to be set on module config.`);
       return;
     }
-    return await this.register(collection, log);
+    return await this.register(collection, data);
   }
 
-  private async register(colletion: Collection, log: any): Promise<InsertOneWriteOpResult<any>> {
-    return await colletion.insertOne({ log, date: new Date() });
+  private async register(colletion: Collection, data: any): Promise<InsertOneWriteOpResult<any>> {
+    return await colletion.insertOne({ data, date: new Date() });
   }
 }

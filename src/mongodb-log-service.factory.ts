@@ -10,6 +10,9 @@ export class MongodbLogServiceFactory {
     @Inject(MONGODB_LOG_CONFIG) config: MongodbLogConfig,
     connections: MongodbLogConnections,
   ): Promise<MongodbLogService> {
+    if (!config) {
+      return null;
+    }
     try {
       const connection = await connections.create(config.connectionString);
       return new MongodbLogService(

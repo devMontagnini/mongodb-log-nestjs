@@ -7,8 +7,19 @@ import { MongodbLogConfigAsync } from './mongodb-log.config.async';
 
 @Global()
 @Module({
-  providers: [MongodbLogConnections],
-  exports: [MongodbLogConnections],
+  providers: [
+    {
+      provide: MONGODB_LOG_CONFIG,
+      useValue: null,
+    },
+    MongodbLogConnections,
+    {
+      provide: MONGODB_LOG_SERVICE_TOKEN,
+      useFactory: MongodbLogServiceFactory.create,
+      inject: [MONGODB_LOG_CONFIG, MongodbLogConnections],
+    },
+  ],
+  exports: [MongodbLogConnections, MONGODB_LOG_SERVICE_TOKEN],
 })
 export class MongodbLogHostModule {
   static forRoot(config: MongodbLogConfig): DynamicModule {
@@ -19,13 +30,7 @@ export class MongodbLogHostModule {
           provide: MONGODB_LOG_CONFIG,
           useValue: config,
         },
-        {
-          provide: MONGODB_LOG_SERVICE_TOKEN,
-          useFactory: MongodbLogServiceFactory.create,
-          inject: [MONGODB_LOG_CONFIG, MongodbLogConnections],
-        },
       ],
-      exports: [MONGODB_LOG_SERVICE_TOKEN],
     };
   }
 
@@ -39,13 +44,7 @@ export class MongodbLogHostModule {
           useFactory: config.useFactory,
           inject: config.inject,
         },
-        {
-          provide: MONGODB_LOG_SERVICE_TOKEN,
-          useFactory: MongodbLogServiceFactory.create,
-          inject: [MONGODB_LOG_CONFIG, MongodbLogConnections],
-        },
       ],
-      exports: [MONGODB_LOG_SERVICE_TOKEN],
     };
   }
 }
